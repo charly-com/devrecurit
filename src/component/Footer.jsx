@@ -7,7 +7,7 @@ import youtube from "../assets/youtube.svg";
 
 const Footer = () => {
   return (
-    <div className="bg-[#111] flex justify-between pl-[160px] pt-[50px] pb-[40px] pr-[60px]">
+    <div className="bg-[#111] flex justify-between pl-[160px] pt-[50px] pb-[40px] pr-[60px] bottom-0 w-full ">
       <div className="flex justify-between w-[25%]">
         <p className="text-gray-600 font-inter text-base font-medium">
           Developers
