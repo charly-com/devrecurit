@@ -1,11 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.css";
 import Layout from "./Layout";
 import logo from "../assets/logo.svg";
 import sms from "../assets/sms.svg";
 import lock from "../assets/lock.svg";
+import { useNavigate } from "react-router-dom";
+import { useApi } from "../api/ApiContext";
 
 const Register = () => {
+  const api = useApi();
+  const navigate = useNavigate();
+  const [registrationData, setRegistrationData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    role: "developer",
+  });
+
+  const handleRegistration = async () => {
+    try {
+      const registrationResponse = await api.register(registrationData);
+      if (registrationResponse.success) {
+        console.log("Registration successful"); // Add this line for debugging
+        navigate("/verify");
+      } else {
+        console.error(registrationResponse.error || "Registration failed");
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+    }
+  };
+  
+  
+
+  const handleRoleChange = (e) => {
+    setRegistrationData({
+      ...registrationData,
+      role: e.target.value,
+    });
+  };
   return (
     <Layout>
       <div className=" flex flex-col items-center justify-center mt-[5%] mb-[5%] ">
@@ -28,6 +61,13 @@ const Register = () => {
                 type="text"
                 placeholder="Enter Username"
                 className="w-[421px] h-[50px] rounded-[6.91px] border border-solid border-[#0000002b] px-[50px] py-[13px]"
+                value={registrationData.username}
+                onChange={(e) =>
+                  setRegistrationData({
+                    ...registrationData,
+                    username: e.target.value,
+                  })
+                }
               />
               <div className="absolute top-10 left-3 pl-2 flex items-center pointer-events-none">
                 <img src={sms} alt="icon" className="h-5 w-5" />
@@ -41,6 +81,13 @@ const Register = () => {
                 type="text"
                 placeholder="Enter Email"
                 className="w-[421px] h-[50px] rounded-[6.91px] border border-solid border-[#0000002b] px-[50px] py-[13px]"
+                value={registrationData.email}
+                onChange={(e) =>
+                  setRegistrationData({
+                    ...registrationData,
+                    email: e.target.value,
+                  })
+                }
               />
               <div className="absolute top-[31%] left-3 pl-2 flex items-center pointer-events-none">
                 <img src={sms} alt="icon" className="h-5 w-5" />
@@ -50,15 +97,19 @@ const Register = () => {
               <label className="mb-1 text-[#00000069] font-poppins text-xs font-normal leading-[157.5%] tracking-[0.22px]">
                 Signup As
               </label>
-              <select className="w-[421px] h-[50px] rounded-[6.91px] border border-solid border-[#0000002b] px-[20px] py-[13px]">
+              <select
+                value={registrationData.role}
+                onChange={handleRoleChange}
+                className="w-[421px] h-[50px] rounded-[6.91px] border border-solid border-[#0000002b] px-[20px] py-[13px]"
+              >
                 <option
-                  value="Developer"
+                  value="developer"
                   className="text-[#00000069] font-poppins text-[13px] font-normal leading-[157.5%] tracking-[0.26px]"
                 >
                   Developer
                 </option>
                 <option
-                  value="Employer"
+                  value="employer"
                   className="text-[#00000069] font-poppins text-[13px] font-normal leading-[157.5%] tracking-[0.26px]"
                 >
                   Employer
@@ -70,15 +121,25 @@ const Register = () => {
                 Password
               </label>
               <input
-                type="text"
+                type="password"
                 placeholder="Enter Password"
                 className="w-[421px] h-[50px] rounded-[6.91px] border border-solid border-[#0000002b] px-[50px] py-[13px]"
+                value={registrationData.password}
+                onChange={(e) =>
+                  setRegistrationData({
+                    ...registrationData,
+                    password: e.target.value,
+                  })
+                }
               />
               <div className="absolute top-[74%] left-3 pl-2 flex items-center pointer-events-none">
                 <img src={lock} alt="icon" className="h-5 w-5" />
               </div>
             </div>
-            <button className="flex w-[421px] h-[47px] p-[13.82px] justify-center items-center gap-[13.82px] rounded-[9.674px] bg-[#2ED1A5] text-white font-inter text-[16px] font-bold leading-160 mb-3">
+            <button
+              onClick={handleRegistration}
+              className="flex w-[421px] h-[47px] p-[13.82px] justify-center items-center gap-[13.82px] rounded-[9.674px] bg-[#2ED1A5] text-white font-inter text-[16px] font-bold leading-160 mb-3"
+            >
               Create Account
             </button>
           </div>

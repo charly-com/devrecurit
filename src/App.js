@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router-dom";
-import Register from './page/Register'
-import Login from './page/Login'
+import Register from './page/Register';
+import Login from './page/Login';
+import Verify from "./page/Verify";
+import Sucess from "./page/Sucess";
 
 
 function App() {
@@ -9,6 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/verify" element={<Verify />} />
+        <Route path="/success" element={<Sucess />} />
       </Routes>
     </div>
   );

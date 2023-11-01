@@ -1,14 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from "./reportWebVitals";
+import { ApiProvider } from "./api/ApiContext";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Router>
-    <App />
+    <ApiProvider>
+      <App />
+    </ApiProvider>
   </Router>
 );
 
