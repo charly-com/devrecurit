@@ -24,23 +24,28 @@ const ApiProvider = ({ children }) => {
           });
       
           if (response.status === 201) {
-            const data = await response.json(); 
+            const data = await response.json();
+      
+            if (data.token) {
+            
+              localStorage.setItem('accessToken', data.token);
+            }
+      
             return {
               success: true,
               data,
             };
           } else {
-            
             return {
               success: false,
               error: "Registration failed",
             };
           }
         } catch (error) {
-         
           throw error;
         }
       };
+      
       
 
   const login = async (loginData) => {
@@ -85,12 +90,9 @@ const ApiProvider = ({ children }) => {
   
       if (response.status === 200) {
         const data = await response.json();
-        
-        const username = data.username;
-  
         return {
           success: true,
-          username, 
+          username: data.username,
         };
       } else {
         return {
@@ -102,6 +104,8 @@ const ApiProvider = ({ children }) => {
       throw error;
     }
   };
+  
+  
   
 
   const refreshAccessToken = async (refreshToken) => {

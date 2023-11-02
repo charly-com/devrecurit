@@ -21,7 +21,7 @@ const Register = () => {
     try {
       const registrationResponse = await api.register(registrationData);
       if (registrationResponse.success) {
-        console.log("Registration successful"); // Add this line for debugging
+     
         navigate("/verify");
       } else {
         console.error(registrationResponse.error || "Registration failed");

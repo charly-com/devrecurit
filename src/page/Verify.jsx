@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
 import logo from "../assets/logo.svg";
 import { useApi } from "../api/ApiContext";
@@ -7,13 +7,35 @@ import { useNavigate } from "react-router-dom";
 const Verify = () => {
   const api = useApi();
   const [otp, setOtp] = useState("");
+  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    
+    const token = localStorage.getItem("accessToken");
+
+    if (token) {
+      try {
+        const [, payloadBase64] = token.split(".");
+
+        const decodedPayload = JSON.parse(atob(payloadBase64));
+
+        const decodedUserId = decodedPayload.id;
+
+        setUserId(decodedUserId);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+  }, []);
+
   const handleVerification = async () => {
     try {
-      const verificationResponse = await api.verifyUser(otp);
+      const verificationData = { userId, otp };
+      const verificationResponse = await api.verifyUser(verificationData);
       if (verificationResponse.success) {
-        const username = verificationResponse.username;
-
+        const username = verificationResponse.username; 
+        
         navigate("/success", { state: { username } });
       } else {
         console.error(verificationResponse.error || "Verification failed");
@@ -22,7 +44,7 @@ const Verify = () => {
       console.error("Verification error:", error);
     }
   };
-  
+
   return (
     <Layout>
       <div className=" flex flex-col items-center justify-center mt-[7%] mb-[11%]">
