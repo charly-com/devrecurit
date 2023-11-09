@@ -10,7 +10,7 @@ const useApi = () => {
   return context;
 };
 
-const API_URL = "http://localhost:3001"; 
+const API_URL = "https://api-dev-recurit.onrender.com"; 
 
 const ApiProvider = ({ children }) => {
     const register = async (registrationData) => {

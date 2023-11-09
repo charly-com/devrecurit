@@ -148,7 +148,10 @@ const Register = () => {
             <span>Terms of Use.</span>
           </p>
           <p className="text-[#85C8BF] font-poppins text-sm font-medium leading-[157.5%] tracking-[0.26px]">
-            Already have an account? Sign In
+           
+            Already have an account?  <a href="/login">
+            Sign In
+              </a>
           </p>
         </div>
       </div>
